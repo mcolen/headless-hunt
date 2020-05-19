@@ -1,0 +1,7 @@
+{
+  "manifest_version": 2,
+  "name": "Headless Hunt",
+  "version": "0.1",
+
+  "description": "Removes the annoying header from https://www.nytimes.com/crosswords."
+}
