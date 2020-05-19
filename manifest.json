@@ -14,5 +14,12 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "commands": {
+    "_execute_page_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H"
+      }
+    }
+  },
   "permissions": ["activeTab", "declarativeContent"]
 }
