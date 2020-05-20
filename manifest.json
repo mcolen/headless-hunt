@@ -6,8 +6,8 @@
   "description": "Removes the annoying header from https://www.nytimes.com/crosswords.",
 
   "page_action": {
-    "default_title": "Toggle Header",
-    "default_popup": "popup.html"
+    "default_title": "Behead this page!",
+    "default_popup": "behead.html"
   },
 
   "background": {
