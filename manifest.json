@@ -4,10 +4,20 @@
   "version": "0.1",
 
   "description": "Removes the annoying header from https://www.nytimes.com/crosswords.",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
 
   "page_action": {
     "default_title": "Behead this page!",
-    "default_popup": "behead.html"
+    "default_popup": "behead.html",
+    "default_icons": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
   },
 
   "background": {
