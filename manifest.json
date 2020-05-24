@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Headless Hunt",
-  "version": "0.1",
+  "version": "0.2",
 
   "description": "Shrinks or removes the header on https://www.nytimes.com/crosswords.",
   "icons": {
