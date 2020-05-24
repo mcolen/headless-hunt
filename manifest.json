@@ -31,5 +31,17 @@
       }
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["*://www.nytimes.com/crosswords*"],
+      "css": ["legacy.css"],
+      "js": ["legacy.js"]
+    },
+    {
+      "matches": ["*://www.nytimes.com/puzzles*"],
+      "css": ["legacy.css"],
+      "js": ["legacy.js"]
+    }
+  ],
   "permissions": ["activeTab", "declarativeContent"]
 }
