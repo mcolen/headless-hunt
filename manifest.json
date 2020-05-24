@@ -27,7 +27,8 @@
   "commands": {
     "_execute_page_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+H"
+        "default": "Ctrl+Shift+H",
+        "mac": "MacCtrl+Shift+H"
       }
     }
   },

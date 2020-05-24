@@ -10,4 +10,4 @@ on all URL paths starting with `/crosswords` served from `www.nytimes.com`.
 The extension can also hide the header entirely. Trigger the page action either
 by clicking on the extension icon in Chrome's toolbar, or by invoking the
 assigned keyboard shortcut. By default, the keyboard shortcut is Ctrl + Shift +
-H (Command + Shift + H on Mac).
+H.
