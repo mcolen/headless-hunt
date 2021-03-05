@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
   "name": "Headless Hunt",
-  "version": "0.4",
+  "version": "0.5",
 
-  "description": "Shrinks or removes the header on https://www.nytimes.com/crosswords.",
+  "description": "Shrinks or removes the header on https://www.nytimes.com/crosswords/* and https://www.nytimes.com/puzzles/*.",
   "icons": {
     "16": "images/icon16.png",
     "32": "images/icon32.png",
@@ -36,6 +36,7 @@
   "content_scripts": [
     {
       "matches": ["*://www.nytimes.com/crosswords*"],
+      "exclude_matches": ["*://www.nytimes.com/crosswords"],
       "css": ["legacy.css"],
       "js": ["legacy.js"]
     }
