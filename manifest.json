@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Headless Hunt",
-  "version": "0.6",
+  "version": "0.7",
 
   "description": "Shrinks or removes the header on https://www.nytimes.com/crosswords/* and https://www.nytimes.com/puzzles/*.",
   "icons": {
@@ -11,7 +11,7 @@
     "128": "images/icon128.png"
   },
 
-  "page_action": {
+  "action": {
     "default_title": "Behead this page!",
     "default_popup": "behead.html",
     "default_icon": {
@@ -22,8 +22,7 @@
   },
 
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "commands": {
     "_execute_page_action": {
@@ -41,5 +40,5 @@
       "js": ["legacy.js"]
     }
   ],
-  "permissions": ["activeTab", "declarativeContent"]
+  "permissions": ["activeTab", "declarativeContent", "scripting"]
 }
