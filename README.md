@@ -1,13 +1,36 @@
 # headless-hunt
-A chrome extension to shrink or remove the header on
-https://www.nytimes.com/crosswords/\* and https://www.nytimes.com/puzzles/\*.
 
-## Legacy Header
-The extension will replace the newer, large header with a smaller, legacy header
-on all URL paths starting with `/crosswords/` served from `www.nytimes.com`.
+A Chrome extension to toggle header visibility on NY Times crosswords and puzzles.
 
-## Hide Header
-The extension can also hide the header entirely. Trigger the page action either
-by clicking on the extension icon in Chrome's toolbar, or by invoking the
-assigned keyboard shortcut. By default, the keyboard shortcut is Ctrl + Shift +
-H.
+## Features
+
+- Toggle header visibility on NY Times crossword and puzzle pages
+- Keyboard shortcut: `Alt+Shift+H`
+- Stardew Valley scythe icon 🌾
+
+## Installation
+
+1. Download this repository as a ZIP and extract it
+2. Go to `chrome://extensions/`
+3. Enable "Developer mode" (top right)
+4. Click "Load unpacked" and select the extension folder
+
+## Usage
+
+**Click the scythe icon** or press **`Alt+Shift+H`** to toggle the header.
+
+Customize the keyboard shortcut at `chrome://extensions/shortcuts`
+
+## How It Works
+
+Toggles the `display` CSS property of the `.pz-header` element. No permanent page modifications.
+
+## Troubleshooting
+
+- **Shortcut not working?** Check `chrome://extensions/shortcuts` for conflicts
+- **Not toggling?** Make sure you're on a NY Times crossword or puzzle page
+- **Icon missing?** Reload the extension at `chrome://extensions/`
+
+## License
+
+MIT
