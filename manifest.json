@@ -1,19 +1,20 @@
 {
   "manifest_version": 3,
   "name": "Headless Hunt",
-  "version": "0.7",
-
-  "description": "Shrinks or removes the header on https://www.nytimes.com/crosswords/* and https://www.nytimes.com/puzzles/*.",
+  "version": "1.0",
+  "description": "Toggle header visibility on NY Times crosswords and puzzles.",
+  
   "icons": {
     "16": "images/icon16.png",
+    "24": "images/icon24.png",
     "32": "images/icon32.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
 
   "action": {
-    "default_title": "Behead this page!",
-    "default_popup": "behead.html",
+    "default_title": "Toggle header visibility",
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "images/icon16.png",
       "24": "images/icon24.png",
@@ -24,21 +25,21 @@
   "background": {
     "service_worker": "background.js"
   },
+
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+H",
-        "mac": "MacCtrl+Shift+H"
-      }
+        "default": "Alt+Shift+H",
+        "mac": "Alt+Shift+H"
+      },
+      "description": "Toggle NY Times header visibility"
     }
   },
-  "content_scripts": [
-    {
-      "matches": ["*://www.nytimes.com/crosswords*"],
-      "exclude_matches": ["*://www.nytimes.com/crosswords"],
-      "css": ["legacy.css"],
-      "js": ["legacy.js"]
-    }
-  ],
-  "permissions": ["activeTab", "declarativeContent", "scripting"]
+
+  "permissions": ["activeTab", "scripting"],
+
+  "host_permissions": [
+    "*://www.nytimes.com/crosswords/*",
+    "*://www.nytimes.com/puzzles/*"
+  ]
 }
