@@ -58,8 +58,8 @@ function updateBadge(tabId, isHidden) {
 // --- URL Validation ---
 
 const NYT_PUZZLE_URLS = [
-  "https://www.nytimes.com/crosswords/",
-  "https://www.nytimes.com/puzzles/"
+  "https://www.nytimes.com/crosswords",
+  "https://www.nytimes.com/puzzles"
 ];
 
 function checkUrl(url) {
@@ -77,4 +77,53 @@ function updateActionState(tab) {
     return;
   }
     
-  const isValid = checkUrl(
+  const isValid = checkUrl(tab.url);
+
+  if (isValid) {
+    // Enable the icon and set a helpful tooltip
+    chrome.action.enable(tab.id);
+    chrome.action.setTitle({
+      tabId: tab.id,
+      title: "Toggle NY Times header"
+    });
+    
+    // Check the tab's current state to set the badge.
+    // This ensures the badge is correct when switching tabs.
+    chrome.scripting.executeScript({
+      target: {tabId: tab.id},
+      func: () => document.body.classList.contains('headless-hunt-active'),
+    }, (results) => {
+      // Don't crash if the script failed (e.g., page still loading)
+      if (!chrome.runtime.lastError && results && results[0]) {
+        updateBadge(tab.id, results[0].result);
+      }
+    });
+
+  } else {
+    // Disable the icon (it will appear grayed out)
+    chrome.action.disable(tab.id);
+    chrome.action.setTitle({
+      tabId: tab.id,
+      title: "Headless Hunt (disabled on this page)"
+    });
+    // Clear the badge when the tab is not valid
+    chrome.action.setBadgeText({ tabId: tabId, text: "" });
+  }
+}
+
+// Fired when the user switches to a different tab
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
+    updateActionState(tab);
+  });
+});
+
+// Fired when a tab is updated (e.g., new URL, reload)
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  // Only update if the tab is fully loaded or the URL changed
+  if (changeInfo.status === 'complete' || changeInfo.url) {
+    chrome.tabs.get(tabId, (updatedTab) => {
+      updateActionState(updatedTab);
+    });
+  }
+});
