@@ -42,7 +42,7 @@
   ],
 
   "host_permissions": [
-    "*://www.nytimes.com/crosswords/*",
-    "*://www.nytimes.com/puzzles/*"
+    "*://www.nytimes.com/crosswords*",
+    "*://www.nytimes.com/puzzles*"
   ]
 }
