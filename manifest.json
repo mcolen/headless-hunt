@@ -22,10 +22,6 @@
     }
   },
 
-  "background": {
-    "service_worker": "background.js"
-  },
-
   "commands": {
     "_execute_action": {
       "suggested_key": {
