@@ -1,26 +1,27 @@
 // This function will be injected into the page
 function toggleHeader() {
-  const header = document.querySelector('.pz-header');
-  if (!header) {
-    // Using console.warn is helpful for your own debugging
-    console.warn('Headless Hunt: Header element not found');
-    return;
+  const STYLE_ID = 'headless-hunt-styles';
+  const BODY_CLASS = 'headless-hunt-active';
+
+  // 1. Inject the CSS rule if it doesn't already exist
+  if (!document.getElementById(STYLE_ID)) {
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = `
+      body.${BODY_CLASS} .pz-header {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
   }
   
-  // Toggle visibility
-  if (header.style.display === 'none') {
-    header.style.display = '';
-  } else {
-    header.style.display = 'none';
-  }
+  // 2. Toggle the class on the <body> element
+  document.body.classList.toggle(BODY_CLASS);
 }
 
 // Add a listener for when the user clicks the extension icon (action)
 chrome.action.onClicked.addListener((tab) => {
   // We only want to run this on the NY Times puzzle pages.
-  // The host_permissions in the manifest already restrict this,
-  // but this check ensures we don't try to run it on
-  // chrome://extensions/ or other non-matching pages.
   if (tab.url.startsWith("https://www.nytimes.com/crosswords/") || 
       tab.url.startsWith("https://www.nytimes.com/puzzles/")) {
         
