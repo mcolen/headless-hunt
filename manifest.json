@@ -12,13 +12,17 @@
     "128": "images/icon128.png"
   },
 
-"action": {
+  "action": {
     "default_title": "Toggle header visibility",
     "default_icon": {
       "16": "images/icon16.png",
       "24": "images/icon24.png",
       "32": "images/icon32.png"
     }
+  },
+
+  "background": {
+    "service_worker": "background.js"
   },
 
   "commands": {
