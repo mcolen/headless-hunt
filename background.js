@@ -120,8 +120,12 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 
 // Fired when a tab is updated (e.g., new URL, reload)
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  // Only update if the tab is fully loaded or the URL changed
-  if (changeInfo.status === 'complete' || changeInfo.url) {
+  // We check 'tab.url' to ensure the tab object is fully available.
+  // The 'changeInfo.status === 'complete'' check ensures we run
+  // this logic only once the page is fully loaded.
+  if (tab.url && changeInfo.status === 'complete') {
+    // We get the tab directly by its ID to ensure we have the most
+    // up-to-date tab object to pass to updateActionState.
     chrome.tabs.get(tabId, (updatedTab) => {
       updateActionState(updatedTab);
     });
