@@ -107,7 +107,7 @@ function updateActionState(tab) {
       title: "Headless Hunt (disabled on this page)"
     });
     // Clear the badge when the tab is not valid
-    chrome.action.setBadgeText({ tabId: tabId, text: "" });
+    chrome.action.setBadgeText({ tabId: tab.id, text: "" }); // <-- THIS LINE IS NOW FIXED
   }
 }
 
