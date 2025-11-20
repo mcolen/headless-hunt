@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Headless Hunt",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Toggle header visibility on NY Times crosswords and puzzles.",
   
   "icons": {
@@ -36,12 +36,11 @@
   },
 
   "permissions": [
-    "scripting",
-    "tabs"
+    "scripting"
   ],
 
   "host_permissions": [
-    "*://www.nytimes.com/crosswords*",
-    "*://www.nytimes.com/puzzles*"
+    "*://*.nytimes.com/crosswords*",
+    "*://*.nytimes.com/puzzles*"
   ]
 }
