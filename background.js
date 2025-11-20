@@ -1,18 +1,24 @@
+// --- Constants ---
+
+const BODY_CLASS = 'headless-hunt-active';
+const STYLE_ID = 'headless-hunt-styles';
+const NYT_PUZZLE_URLS = [
+  "https://www.nytimes.com/crosswords",
+  "https://www.nytimes.com/puzzles"
+];
+
 // --- Injected Function ---
 
 // This function is injected into the page to toggle the header.
 // It returns the new state (true if hidden, false if visible).
-function toggleHeader() {
-  const STYLE_ID = 'headless-hunt-styles';
-  const BODY_CLASS = 'headless-hunt-active';
-
+function toggleHeader(className, styleId) {
   // 1. Inject the CSS rule if it doesn't already exist.
   // This is done once per page-load.
-  if (!document.getElementById(STYLE_ID)) {
+  if (!document.getElementById(styleId)) {
     const style = document.createElement('style');
-    style.id = STYLE_ID;
+    style.id = styleId;
     style.textContent = `
-      body.${BODY_CLASS} .pz-header {
+      body.${className} .pz-header {
         display: none !important;
       }
     `;
@@ -20,10 +26,10 @@ function toggleHeader() {
   }
   
   // 2. Toggle the class on the <body> element
-  document.body.classList.toggle(BODY_CLASS);
+  document.body.classList.toggle(className);
   
   // 3. Report the new state back to the service worker
-  return document.body.classList.contains(BODY_CLASS);
+  return document.body.classList.contains(className);
 }
 
 // --- Click Handler ---
@@ -31,9 +37,11 @@ function toggleHeader() {
 // Fired when the user clicks the extension's icon.
 chrome.action.onClicked.addListener(async (tab) => {
   // Run the injected script and wait for its result.
+  // We pass the constants as arguments to keep the injected function pure.
   const results = await chrome.scripting.executeScript({
     target: {tabId: tab.id},
     func: toggleHeader,
+    args: [BODY_CLASS, STYLE_ID] 
   });
   
   // Update the badge based on the script's return value.
@@ -56,11 +64,6 @@ function updateBadge(tabId, isHidden) {
 }
 
 // --- URL Validation ---
-
-const NYT_PUZZLE_URLS = [
-  "https://www.nytimes.com/crosswords",
-  "https://www.nytimes.com/puzzles"
-];
 
 function checkUrl(url) {
   if (!url) return false;
@@ -88,10 +91,10 @@ function updateActionState(tab) {
     });
     
     // Check the tab's current state to set the badge.
-    // This ensures the badge is correct when switching tabs.
     chrome.scripting.executeScript({
       target: {tabId: tab.id},
-      func: () => document.body.classList.contains('headless-hunt-active'),
+      func: (className) => document.body.classList.contains(className),
+      args: [BODY_CLASS]
     }, (results) => {
       // Don't crash if the script failed (e.g., page still loading)
       if (!chrome.runtime.lastError && results && results[0]) {
@@ -107,9 +110,11 @@ function updateActionState(tab) {
       title: "Headless Hunt (disabled on this page)"
     });
     // Clear the badge when the tab is not valid
-    chrome.action.setBadgeText({ tabId: tab.id, text: "" }); // <-- THIS LINE IS NOW FIXED
+    chrome.action.setBadgeText({ tabId: tab.id, text: "" });
   }
 }
+
+// --- Listeners ---
 
 // Fired when the user switches to a different tab
 chrome.tabs.onActivated.addListener((activeInfo) => {
@@ -120,14 +125,9 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 
 // Fired when a tab is updated (e.g., new URL, reload)
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  // We check 'tab.url' to ensure the tab object is fully available.
-  // The 'changeInfo.status === 'complete'' check ensures we run
-  // this logic only once the page is fully loaded.
-  if (tab.url && changeInfo.status === 'complete') {
-    // We get the tab directly by its ID to ensure we have the most
-    // up-to-date tab object to pass to updateActionState.
-    chrome.tabs.get(tabId, (updatedTab) => {
-      updateActionState(updatedTab);
-    });
+  // We run this on 'loading' OR 'complete' to update the UI faster.
+  // The 'tab' object passed here is sufficient, no need to call chrome.tabs.get again.
+  if (changeInfo.status === 'loading' || changeInfo.status === 'complete') {
+    updateActionState(tab);
   }
 });
