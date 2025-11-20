@@ -2,10 +2,6 @@
 
 const BODY_CLASS = 'headless-hunt-active';
 const STYLE_ID = 'headless-hunt-styles';
-const NYT_PUZZLE_URLS = [
-  "https://www.nytimes.com/crosswords",
-  "https://www.nytimes.com/puzzles"
-];
 
 // --- Injected Function ---
 
@@ -67,7 +63,16 @@ function updateBadge(tabId, isHidden) {
 
 function checkUrl(url) {
   if (!url) return false;
-  return NYT_PUZZLE_URLS.some(puzzleUrl => url.startsWith(puzzleUrl));
+  try {
+    const urlObj = new URL(url);
+    // Check if hostname ends with nytimes.com (covers www, help, etc.)
+    const isNYT = urlObj.hostname.endsWith('nytimes.com');
+    // Check if path starts with /crosswords or /puzzles
+    const isPuzzle = urlObj.pathname.startsWith('/crosswords') || urlObj.pathname.startsWith('/puzzles');
+    return isNYT && isPuzzle;
+  } catch (e) {
+    return false;
+  }
 }
 
 // --- Icon State Logic ---
